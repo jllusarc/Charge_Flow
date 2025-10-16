@@ -1,5 +1,5 @@
-# charge_transfer
+# charge_flow
 
-Charge-transfer vector analysis and visualization with exportable **tags** and CP2K **&KIND** blocks.
+Charge-flow vector analysis and visualization.
 
 See `python -m charge_transfer --help` for options.
