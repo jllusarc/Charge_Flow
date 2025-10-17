@@ -93,4 +93,4 @@ python -m charge_transfer --xyz structure.xyz --bader ACF.dat \
 ## 📚 Further Reading
 
 For full flag documentation, theory, and advanced workflows, see:
-👉 **[`charge_transfer_tutorial_manual.md`](charge_transfer_tutorial_manual.md)**
+👉 **[`charge_flow_tutorial_manual.md`](charge_flow_tutorial_manual.md)**
