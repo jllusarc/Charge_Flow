@@ -1,6 +1,4 @@
-# charge_transfer --- User Guide & Tutorial
-
-*A practical manual for the refactored, feature‑complete CLI (v3).*
+# charge_flow --- User Guide & Tutorial
 
 ------------------------------------------------------------------------
 
