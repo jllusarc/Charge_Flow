@@ -1,4 +1,4 @@
-# ⚡ charge_transfer — Easy Start Guide
+# ⚡ charge_flow — Easy Start Guide
 
 *A fast-start companion to the full [User Manual](charge_transfer_tutorial_manual.md)*
 
