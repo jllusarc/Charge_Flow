@@ -9,7 +9,7 @@ You can install and run `charge_flow` in an isolated Conda environment to ensure
 
 ### Step 1. Download / clone the repository
 ```bash
-git clone https://github.com/yourusername/charge_flow.git
+git clone https://github.com/jllusarc/charge_flow.git
 cd charge_flow
 ```
 
