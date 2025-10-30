@@ -15,5 +15,5 @@ ignore = ["ANN", "D"]
 fix = true
 
 [tool.ruff.isort]
-known-first-party = ["charge_transfer"]
+known-first-party = ["charge_flow"]
 profile = "black"

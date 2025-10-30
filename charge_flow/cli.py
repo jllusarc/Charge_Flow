@@ -1,6 +1,6 @@
 from typing import Optional, Sequence
 """
-CLI for charge-transfer analysis.
+CLI for charge-flow analysis.
 
 - Compute per-atom resultant charge-flow vectors
 - Visualize in 2D/3D
@@ -26,7 +26,7 @@ from .utils import parse_pair_cutoffs
 from . import viz_2d, viz_3d
 
 def parse_args(argv: Optional[Sequence[str]] = None):
-    p = argparse.ArgumentParser(description='Charge transfer analysis (refactor v4) + tag export + CP2K KIND.')
+    p = argparse.ArgumentParser(description='Charge flow analysis')
     # Required IO
     p.add_argument('--xyz', required=True, help='XYZ structure file')
     p.add_argument('--bader', required=True, help='Bader ACF.dat file')

@@ -1,96 +1,201 @@
-# ⚡ charge_flow — Easy Start Guide
+# charge_flow Package Documentation
 
-*A fast-start companion to the full [User Manual](charge_flow_tutorial_manual.md)*
+## Overview
+The `charge_flow` package is a visualization and analysis tool for exploring charge flow between atoms in an atomistic structure. It combines per-atom charge data (e.g. from Bader analysis) with structural coordinates to produce 3D or 2D visualizations of charge flow magnitudes and directions.
 
----
+## Installation
 
-## 🧬 What it does
+You can install and run `charge_flow` in an isolated Conda environment to ensure all dependencies work correctly. The package relies on scientific Python libraries and visualization backends such as `pyvista` and `vtk`.
 
-`charge_transfer` reads an **XYZ atomic structure** and a **Bader charge file (`ACF.dat`)** to compute **bond-resolved charge-flow vectors** between atoms.
-It can visualize **2D projected fields**, (stub) **3D arrows/spheres**, and export **labeled XYZ** or **CP2K KIND files**.
-
----
-
-## ⚙️ Installation
-
-Install dependencies via conda:
-
+### Step 1. Download / clone the repository
 ```bash
-conda install -c conda-forge numpy networkx scipy matplotlib pyvista rdkit
+git clone https://github.com/yourusername/charge_flow.git
+cd charge_flow
 ```
 
-Then clone this repository and run from its root folder.
-
----
-
-## 🚀 Minimal run
-
+### Step 2. Create and activate a conda environment (recommended)
+Option A: if you have an `environment.yml` in the repository
 ```bash
-python -m charge_transfer --xyz structure.xyz --bader ACF.dat
+mamba env create -f environment.yml
+conda activate charge_flow
+```
+If you don't have `mamba`:
+```bash
+conda env create -f environment.yml
+conda activate charge_flow
 ```
 
-This opens the **3D viewer** (stub implementation).
-By default, arrows indicate **charge-flow magnitude and direction** — longer arrows mean stronger flow.
-
----
-
-## 🖥️ Quick examples
-
-| Goal                                                        | Command                                                         |
-| ----------------------------------------------------------- | --------------------------------------------------------------- |
-| Show 3D vector field (default)                              | `python -m charge_transfer --xyz structure.xyz --bader ACF.dat` |
-| Adjust arrow size                                           | `--scale-3d 1.5`                                                |
-| Show total resultant vector                                 | `--show-total-resultant`                                        |
-| Color and scale resultant                                   | `--resultant-color red --resultant-scale 2`                     |
-| Enable “snowball” cumulative resultant (interactive slider) | `--show-snowball`                                               |
-| Adjust snowball scale or color                              | `--snowball-scale 1.5 --snowball-color blue`                    |
-| Display spheres instead of arrows                           | `--display spheres`                                             |
-| Adjust sphere size                                          | `--sphere-scale 0.5`                                            |
-| Show only specific atoms                                    | `--mode atom --atoms 5 10 22`                                   |
-| 2D projected field (recommended view)                       | `--view 2d`                                                     |
-| Choose projection plane                                     | `--view 2d --plane yz`                                          |
-| Set plane by normal vector                                  | `--view 2d --plane-normal 1 0 0`                                |
-| Define plane thickness                                      | `--view 2d --slab 1`                                            |
-| Adjust figure size                                          | `--view 2d --figsize 8 7`                                       |
-| Tune interpolation radius/intensity                         | `--idw-radius 3 --idw-power 2`                                  |
-
-> ⚠️ `--mode surface-flux` and `--mode interface-flux` are placeholders and currently **not functional**.
-
----
-
-## 📊 2D Output Example
-
+Option B: create the environment manually using conda-forge
 ```bash
-python -m charge_transfer --xyz structure.xyz --bader ACF.dat \
-  --view 2d --contour mag --stream --save-2d field.png
+conda create -n charge_flow python=3.10 numpy scipy matplotlib pyvista vtk networkx rdkit -c conda-forge
+conda activate charge_flow
 ```
 
-→ Produces a vector-field map (`field.png`) projected on the **xy-plane**.
-
----
-
-## 🖾 Export options
-
+### Step 3. Install the package into the environment
+Standard install:
 ```bash
-# Export selected atoms as labeled XYZ
---export-modified-xyz sel.xyz --rename-elements In:In1 As:As1
-
-# Create a CP2K KINDS input
---build-kinds KINDS.inp
+pip install .
 ```
 
+Editable/development install:
+```bash
+pip install -e .
+```
+
+### Step 4. Run the package
+```bash
+python -m charge_flow --xyz your_structure.xyz --bader ACF.dat
+```
+
+## Basic Usage
+```bash
+python -m charge_flow --xyz STRUCTURE.xyz --bader ACF.dat
+```
+This command launches the 3D visualization showing charge-flow vectors (arrows). Larger arrows represent larger charge-flow magnitudes; smaller arrows represent smaller ones.
+
 ---
 
-## 🧠 Tips & Troubleshooting
+## Command Reference
 
-* Empty figure? → Your filters excluded all atoms. Loosen `--slab` or `--target` options.
-* Mismatched atoms? → Ensure `ACF.dat` and `.xyz` have **identical atom order**.
-* 3D missing? → Still a stub — use `--view 2d` instead.
-* Noisy divergence map? → Increase `--grid-res` or `--idw-radius`.
+### 1. General Help
+```bash
+python -m charge_flow -h
+```
+Displays all available options.
+
+### 2. Field Mode (default)
+```bash
+python -m charge_flow --xyz file.xyz --bader ACF.dat --mode field
+```
+Displays the full 3D vector field.
+
+#### Arrow Display
+```bash
+--display arrows
+--scale-3d N
+```
+- Adjusts arrow size (`N=2` default).
+- `N=0` will cause the program to fail.
+
+#### Total Resultant Vector
+```bash
+--show-total-resultant
+--resultant-scale N
+--resultant-color COLOR
+```
+Shows a resultant arrow at the model’s center of mass, summing all charge-flow magnitudes. Scale and color are customizable.
+
+#### Snowball Resultant
+```bash
+--show-snowball
+--snowball-scale N
+--snowball-color COLOR
+```
+Displays an interactive cumulative resultant vector, growing with the sphere radius from the center of mass.
+
+#### Sphere Display
+```bash
+--display spheres
+--sphere-scale N
+```
+Shows spheres representing charge-flow magnitudes. `N=0` hides spheres (wireframe only), `N=1` enlarges them.
 
 ---
 
-## 📚 Further Reading
+### 3. Atom Mode
+```bash
+python -m charge_flow --xyz file.xyz --bader ACF.dat --mode atom
+```
+Without selecting atoms, shows only the wireframe.
 
-For full flag documentation, theory, and advanced workflows, see:
-👉 **[`charge_flow_tutorial_manual.md`](charge_flow_tutorial_manual.md)**
+#### Select Atoms
+```bash
+--atoms a1 a2 a3 ... aN
+```
+Shows charge-flow vectors for the selected atoms (1-based indexing).
+If any index exceeds total atoms, an error appears.
+
+---
+
+### 4. View Selection
+```bash
+--view 3d
+--view 2d
+--view both
+```
+- `3d`: Default interactive mode.
+- `2d`: 2D projected map with arrows and dots for atoms.
+- `both`: Combines both visualizations.
+
+---
+
+### 5. 2D Plane Options
+
+#### Cartesian Planes
+```bash
+--plane {xy, yz, xz, pca, ...}
+```
+Sets projection plane (origin at center of mass). Must be combined with `--view 2d`.
+
+#### Miller Indices
+```bash
+--plane-normal h k l
+--plane-origin x y z
+--slab n
+```
+Defines projection using Miller indices and optional custom origin or slab thickness (in Å).
+Recommended slab thickness: `n=1` Å.
+
+---
+
+### 6. Figure Customization (2D)
+```bash
+--fig-size X Y
+--fig-lims x1min x1max x2min x2max
+```
+Controls figure dimensions and axis limits in projected coordinates.
+
+---
+
+### 7. Background Interpolation (2D)
+```bash
+--idw-radius N
+--idw-power N
+```
+Controls the inverse distance weighting parameters for smooth background mapping.
+
+---
+
+## Notes
+- Default view is equivalent to `--mode field --display arrows --view 3d`.
+- `--plane` requires `--view 2d` to take effect.
+- Atom indices are 1-based and must be valid within the structure size.
+
+---
+
+## Quick Examples
+
+### Default 3D Field
+```bash
+python -m charge_flow --xyz model.xyz --bader ACF.dat
+```
+
+### With Total Resultant
+```bash
+python -m charge_flow --xyz model.xyz --bader ACF.dat --show-total-resultant
+```
+
+### Atom Mode
+```bash
+python -m charge_flow --xyz model.xyz --bader ACF.dat --mode atom --atoms 5 12 33
+```
+
+### 2D Projection
+```bash
+python -m charge_flow --xyz model.xyz --bader ACF.dat --view 2d --plane xy
+```
+
+### Miller Plane Projection
+```bash
+python -m charge_flow --xyz model.xyz --bader ACF.dat --view 2d --plane-normal 1 1 0 --slab 1
+```

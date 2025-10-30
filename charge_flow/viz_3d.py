@@ -92,7 +92,7 @@ def plot_atom_mode(p, positions, bonds, symbols, flows_dict, scale=2.0):
     add_structure_wireframe(p, positions, bonds)
     for center, flows in flows_dict.items():
         for fl in flows:
-            j = fl['to'] - 1; q = fl['charge_transfer']
+            j = fl['to'] - 1; q = fl['charge_flow']
             start = positions[center]; direction = positions[center] - positions[j]
             direction = direction / (np.linalg.norm(direction)+1e-12)
             v = (abs(q) * direction) * (scale if q < 0 else -scale)

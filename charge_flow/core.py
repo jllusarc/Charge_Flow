@@ -105,7 +105,7 @@ def extract_local_flows(atom_index, valid_bonds, bond_charges, G):
                 "from": atom_index + 1, "to": other + 1,
                 "element": G.nodes[other]['element'],
                 "source_element": G.nodes[atom_index]['element'],
-                "charge_transfer": float(qij)
+                "charge_flow": float(qij)
             })
     return flows
 
@@ -114,7 +114,7 @@ def compute_charge_flow_vectors(atom_index, flows, positions):
     vectors = []
     for fl in flows:
         src = fl['from'] - 1; tgt = fl['to'] - 1
-        q = fl['charge_transfer']
+        q = fl['charge_flow']
         mag = abs(q)
         nb = tgt if src == atom_index else src
         direction = positions[atom_index] - positions[nb]
@@ -123,7 +123,7 @@ def compute_charge_flow_vectors(atom_index, flows, positions):
         arrow_vec = (mag * unit) if q < 0 else (-mag * unit)
         vectors.append({
             'start': positions[atom_index], 'vector': arrow_vec, 'magnitude': mag,
-            'neighbor_index': nb, 'charge_transfer': q
+            'neighbor_index': nb, 'charge_flow': q
         })
     return vectors
 
