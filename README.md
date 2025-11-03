@@ -32,14 +32,9 @@ Editable/development install:
 pip install -e .
 ```
 
-### Step 4. Run the package
+### Step 4. Run the package (Basic usage)
 ```bash
 python -m charge_flow --xyz your_structure.xyz --bader ACF.dat
-```
-
-## Basic Usage
-```bash
-python -m charge_flow --xyz STRUCTURE.xyz --bader ACF.dat
 ```
 This command launches the 3D visualization showing charge-flow vectors (arrows). Larger arrows represent larger charge-flow magnitudes; smaller arrows represent smaller ones.
 
