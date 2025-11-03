@@ -15,7 +15,7 @@ cd charge_flow
 
 ### Step 2. Create and activate a conda environment (recommended)
 
-Create the environment manually using conda-forge
+Create an environment manually using conda-forge
 ```bash
 conda create -n charge_flow python=3.10 numpy scipy matplotlib pyvista vtk networkx rdkit -c conda-forge
 conda activate charge_flow
